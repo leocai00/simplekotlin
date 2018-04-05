@@ -46,13 +46,11 @@ class Person(var firstName: String, var lastName: String, var age: Int) {
     override fun hashCode(): Int {
         return this.firstName.hashCode() + this.lastName.hashCode() + this.age.hashCode()
     }
-
-
 }
 
 class Money(var amount: Int, var currency: String) {
     init {
-        if(this.currency != "USD" || this.currency != "EUR" || this.currency != "CAN" || this.currency != "GBP") {
+        if(!this.currency.equals("USD") && !this.currency.equals("EUR") && !this.currency.equals("CAN") && !this.currency.equals("GBP")) {
             throw IllegalArgumentException("Need to be USD, EUR, CAN or GBP")
         }
         if(this.amount < 0) {
