@@ -12,6 +12,77 @@ println("UW Homework: Simple Kotlin")
 
 // write a class "Money"
 
+fun whenFn(arg: Any): String {
+    return when (arg) {
+        "Hello" -> "World"
+        is String -> "I don't understand"
+        0 -> "zero"
+        1 -> "one"
+        2..10 -> "low number"
+        is Number -> "a number"
+        else -> "I don't understand"
+    }
+}
+
+fun add(num1: Int, num2: Int): Int {
+    return num1 + num2
+}
+
+fun sub(num1: Int, num2: Int): Int {
+    return num1 - num2
+}
+
+fun mathOp(num1: Int, num2: Int, function:(num3: Int, num4: Int) -> Int): Int {
+    return function(num1,num2)
+}
+
+class Person(var firstName: String, var lastName: String, var age: Int) {
+    val debugString = "[Person firstName:$firstName lastName:$lastName age:$age]"
+
+    fun equals(other: Person): Boolean {
+        return this.firstName == other.firstName && this.lastName == other.lastName && this.age == other.age
+    }
+
+    override fun hashCode(): Int {
+        return this.firstName.hashCode() + this.lastName.hashCode() + this.age.hashCode()
+    }
+
+
+}
+
+class Money(var amount: Int, var currency: String) {
+    init {
+        if(this.currency != "USD" || this.currency != "EUR" || this.currency != "CAN" || this.currency != "GBP") {
+            throw IllegalArgumentException("Need to be USD, EUR, CAN or GBP")
+        }
+        if(this.amount < 0) {
+            throw IllegalArgumentException("Invalid input amount")
+        }
+    }
+
+    fun convert(convertTo: String): Money {
+        var converted: Double
+        when(this.currency) {
+            "EUR" -> converted = this.amount * 1.22
+            "CAN" -> converted = this.amount * 0.78
+            "GBP" -> converted = this.amount * 1.4
+            else -> converted = this.amount * 1.0
+        }
+        when(convertTo) {
+            "EUR" -> converted = converted * 0.82
+            "CAN" -> converted = converted * 1.28
+            "GBP" -> converted = converted * 0.71
+            else -> converted = converted * 1.0
+        }
+        return Money(converted.toInt(), convertTo)
+    }
+
+    operator fun plus(add: Money): Money {
+        return Money(this.amount + add.convert(add.currency).amount, this.currency)
+    }
+}
+
+
 // ============ DO NOT EDIT BELOW THIS LINE =============
 
 print("When tests: ")
